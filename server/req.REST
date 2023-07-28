@@ -1,7 +1,7 @@
-POST http://localhost:8080/api/tasks
+POST http://localhost:8080/api/tasks HTTP/1.1
 Content-Type: application/json
 
-
 {
-    "task": "hello hi"
+    "task": "hey",
+    "name": "hello"
 }
