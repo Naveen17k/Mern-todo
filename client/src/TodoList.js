@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState('');
+  const [newTodo, setNewTodo] = useState("");
   const [editingTodoId, setEditingTodoId] = useState(null);
-  const [editingTodoText, setEditingTodoText] = useState('');
+  const [editingTodoText, setEditingTodoText] = useState("");
 
   useEffect(() => {
     fetchTodos();
@@ -13,7 +13,7 @@ const TodoApp = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/tasks');
+      const response = await axios.get("/api/tasks");
       setTodos(response.data);
     } catch (error) {
       console.error(error);
@@ -25,12 +25,12 @@ const TodoApp = () => {
   };
 
   const handleAddTodo = async () => {
-    if (newTodo.trim() !== '') {
+    if (newTodo.trim() !== "") {
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleDateString();
       const formattedTime = currentDate.toLocaleTimeString();
       try {
-        const response = await axios.post('http://localhost:8080/api/tasks', {
+        const response = await axios.post("/api/tasks", {
           task: newTodo,
           completed: false,
         });
@@ -40,11 +40,10 @@ const TodoApp = () => {
           task: newTodo,
           completed: false,
           date: formattedDate,
-          time: formattedTime
-       
+          time: formattedTime,
         };
         setTodos([...todos, newTodoItem]);
-        setNewTodo('');
+        setNewTodo("");
       } catch (error) {
         console.error(error);
       }
@@ -53,7 +52,7 @@ const TodoApp = () => {
 
   const handleDeleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/tasks/${id}`);
+      await axios.delete(`/api/tasks/${id}`);
       setTodos(todos.filter((todo) => todo._id !== id));
     } catch (error) {
       console.error(error);
@@ -68,7 +67,7 @@ const TodoApp = () => {
 
   const handleSaveTodo = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/tasks/${editingTodoId}`, {
+      await axios.put(`/api/tasks/${editingTodoId}`, {
         task: editingTodoText,
       });
       const updatedTodos = todos.map((todo) =>
@@ -76,7 +75,7 @@ const TodoApp = () => {
       );
       setTodos(updatedTodos);
       setEditingTodoId(null);
-      setEditingTodoText('');
+      setEditingTodoText("");
     } catch (error) {
       console.error(error);
     }
@@ -84,13 +83,13 @@ const TodoApp = () => {
 
   const handleCancelEdit = () => {
     setEditingTodoId(null);
-    setEditingTodoText('');
+    setEditingTodoText("");
   };
 
   const handleToggleComplete = async (id) => {
     try {
       const todo = todos.find((todo) => todo._id === id);
-      await axios.put(`http://localhost:8080/api/tasks/${id}`, {
+      await axios.put(`/api/tasks/${id}`, {
         task: todo.task,
         completed: !todo.completed,
       });
@@ -104,7 +103,7 @@ const TodoApp = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       if (editingTodoId) {
         handleSaveTodo();
       } else {
@@ -145,8 +144,8 @@ const TodoApp = () => {
               onChange={() => handleToggleComplete(todo._id)}
             />
             <div>
-            <p className=" text-sm mr-1 text-gray-500 mb-1">{todo.date}</p>
-              
+              <p className=" text-sm mr-1 text-gray-500 mb-1">{todo.date}</p>
+
               {editingTodoId === todo._id ? (
                 <input
                   type="text"
@@ -156,14 +155,15 @@ const TodoApp = () => {
                   onKeyDown={handleKeyDown}
                 />
               ) : (
-                <p className={`flex mb-1 ${todo.completed ? 'line-through text-gray-500' : '' }`}>
+                <p
+                  className={`flex mb-1 ${
+                    todo.completed ? "line-through text-gray-500" : ""
+                  }`}
+                >
                   {todo.task}
                 </p>
-                
               )}
               <p className="text-sm mr-6 text-gray-500">{todo.time}</p>
-
-
             </div>
             <div className="ml-auto">
               {editingTodoId === todo._id ? (
