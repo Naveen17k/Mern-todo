@@ -18,10 +18,7 @@ const connectToDatabase = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     };
-    await mongoose.connect(
-      "mongodb+srv://naveennk11:Yeahencrypted@mern-todo.r7hjmas.mongodb.net/tasks",
-      connectionParams
-    );
+    await mongoose.connect("YOUR-SERVER-INSTANCE", connectionParams);
     console.log("Connected to database.");
   } catch (error) {
     console.log("Could not connect to database.", error);
